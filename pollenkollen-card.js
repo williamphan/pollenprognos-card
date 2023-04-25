@@ -17,7 +17,7 @@ import {
       var sensors = [];
   
       var replaceAAO = function(intext){
-          return intext.toLowerCase().replaceAll("å","a").replaceAll("ä","a").replaceAll("ö","o");
+	      return intext.toLowerCase().replaceAll("å","a").replaceAll("ä","a").replaceAll("ö","o").replace(' \/ ','_');
       }
       var city = replaceAAO(this.config.city);
       const allergens = this.config.allergens;
@@ -74,25 +74,19 @@ import {
                   <thead>
                   <th>Pollen</th>
                   <th>Idag</th>
-                  <th>${this.sensors[0].day1.day}</th>
-                  <th>${this.sensors[0].day2.day}</th>
-                  <th>${this.sensors[0].day3.day}</th>
+		  <th>Imorgon</th>
                   </thead>
                   ${this.sensors.map(sensor => html`
                   <tr class="allergen" valign="top">
                   <td><img class="allergen" src="${this.images[sensor.allergenReplaced+'_'+sensor.day0.state+'_png']}"/>${sensor.allergenCapitalized}</td>
                   <td><img src="${this.images[sensor.day0.state+'_png']}"/></td>
                   <td><img src="${this.images[sensor.day1.state+'_png']}"/></td>
-                  <td><img src="${this.images[sensor.day2.state+'_png']}"/></td>
-                  <td><img src="${this.images[sensor.day3.state+'_png']}"/></td>
                   </tr>
                   ${this.config.show_text == true ? html`
                   <tr class="allergen" valign="top">
                   <td>&nbsp;</td>
                   <td><p>${sensor.day0.state_text}</p></td>
                   <td><p>${sensor.day1.state_text}</p></td>
-                  <td><p>${sensor.day2.state_text}</p></td>
-                  <td><p>${sensor.day3.state_text}</p></td>
                   </tr>
                   ` : ''}
                   `)
@@ -250,4 +244,4 @@ import {
       `;
     }
   }
-  customElements.define("pollen-card", PollenCardv2);
+  customElements.define("pollenkollen-card", PollenCardv2);
