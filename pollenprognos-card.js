@@ -277,4 +277,4 @@ import {
       `;
     }
   }
-  customElements.define("pollenkollen-card", PollenCardv2);
+  customElements.define("pollenprognos-card", PollenCardv2);
