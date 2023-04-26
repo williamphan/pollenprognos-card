@@ -36,6 +36,7 @@ import {
           dict.allergenReplaced = replaceAAO(allergens[i]);
           //Used for type allergen in card
           dict.allergenCapitalized = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1));
+          dict.allergenShort = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1).replace(' \/ vide',''));
           //Sensor
           dict.allergenSensorName = `sensor.pollen_${city}_${dict.allergenReplaced}`;
           dict.allergen = hass.states[`sensor.pollen_${city}_${dict.allergenReplaced}`];
@@ -64,12 +65,37 @@ import {
         this.sensors = sensors;
         console.log(sensors);
     }
-  
-    render() {
-      if (this.sensors.length>0)
+
+    _renderMinimalHtml() {
           return html`
           <ha-card>
+              ${this.config.show_title == true ? html`
               ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
+              ` : ''}
+              ${this.config.show_title == false ? html`
+              <p></p>
+              ` : ''}
+              <div class="flex-container">
+                  ${this.sensors.map(sensor => html`
+                  <div class="sensor">
+                  <img class="box" src="${this.images[sensor.allergenReplaced+'_'+sensor.day0.state+'_png']}"/>
+                  ${this.config.show_text == true ? html`
+                  <p>${sensor.allergenShort+' ('+sensor.day0.state+')'}</p>
+                  ` : ''}
+                  </div>
+                  `)
+                  }
+              </div>
+          </ha-card>
+      `;
+    }
+
+    _renderNormalHtml() {
+          return html`
+          <ha-card>
+              ${this.config.show_title == true ? html`
+              ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
+              ` : ''}
               <table class="forecast">
                   <thead>
                   <th></th>
@@ -127,6 +153,26 @@ import {
               </table>
           </ha-card>
       `;
+    }
+  
+    render() {
+      if (this.sensors.length<1) {
+	      console.log("No sensor data, not rendering card.")
+      return;
+      }
+        if ( this.config.minimal == true ) {
+            return html
+            `
+            ${this._renderMinimalHtml()}
+
+            `
+        } else {
+            return html
+            `
+            ${this._renderNormalHtml()}
+
+            `
+        }
     }
   
     setConfig(config) {
@@ -257,9 +303,6 @@ import {
           width: 100px;
           font-size: smaller;
         }
-        img {
-          width: 30px;
-        }
         img.allergen {
           width: 40px;
           height: 40px;
@@ -274,7 +317,32 @@ import {
         td {
           width: 100px;
         }
+         .flex-container {
+          padding: 16px;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          text-align: center;
+          justify-content: space-evenly;
+          align-items: center;
+        }
+         @supports not (-ms-flex: 1) {
+          .flex-container {
+            height: auto; /* 2 */
+            // min-height: 24em; /* 2 */
+          }
+        }
+         .sensor {
+          display: block;
+          min-width: 20%;
+          flex: 1;
+        }
+        p.nowrap {
+       white-space: nowrap;
+        }
       `;
     }
   }
   customElements.define("pollenprognos-card", PollenCardv2);
+
+// vim: set ts=4 sw=4 et:
