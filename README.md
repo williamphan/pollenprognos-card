@@ -22,34 +22,13 @@ Small improvements to [pollen-card](https://github.com/nidayand/lovelace-pollen-
 | allergens | list | **Required** | List of allergens for which you have sensors
 | title | boolean | **Optional** | Custom title if string, boolean value if generated or not to show. Default is generated text
 | show_text | boolean | **Optional** | Set to `true` if you want to show the state text under the images
+| minimal | boolean | **Optional** | Use minimal, flexible layout
 
 ## Examples
 
-<table>
-<tr>
-<td>0 days</td>
-<td><img width="509" alt="card_0_days" src="https://user-images.githubusercontent.com/2943684/234618464-1d90b53a-61d7-4fe1-b5f8-10ae4cc17883.png"></td>
-<td>
+### Normal layout
 
-```yaml
-cards:
-  - type: 'custom:pollenprognos-card'
-    city: Forshaga
-    show_text: false
-    days_to_show: 0
-    allergens:
-      - Al
-      - Alm
-      - Ambrosia
-      - Björk
-      - Ek
-      - Gråbo
-      - Gräs
-      - Hassel
-      - Sälg / vide
-``` 
-</td>
-</tr>
+<table>
 <tr>
 <td>2 days, no text</td>
 <td><img width="510" alt="card_2_days_without_text" src="https://user-images.githubusercontent.com/2943684/234618818-0f5b4953-8604-48e9-b308-20a3887b45d8.png"></td>
@@ -85,6 +64,88 @@ cards:
     city: Forshaga
     show_text: true
     days_to_show: 4
+    allergens:
+      - Al
+      - Alm
+      - Ambrosia
+      - Björk
+      - Ek
+      - Gråbo
+      - Gräs
+      - Hassel
+      - Sälg / vide
+```
+</td>
+</tr>
+  <tr>
+<td>0 days</td>
+<td><img width="509" alt="card_0_days" src="https://user-images.githubusercontent.com/2943684/234618464-1d90b53a-61d7-4fe1-b5f8-10ae4cc17883.png"></td>
+<td>
+
+```yaml
+cards:
+  - type: 'custom:pollenprognos-card'
+    city: Forshaga
+    show_text: false
+    days_to_show: 0
+    allergens:
+      - Al
+      - Alm
+      - Ambrosia
+      - Björk
+      - Ek
+      - Gråbo
+      - Gräs
+      - Hassel
+      - Sälg / vide
+``` 
+</td>
+</tr>
+  <tr><td colspan="3">Maybe try minimal layout instead?</td></tr>
+  </table>
+  
+### Minimal layout
+  
+<table>
+  <td>Minimal, without text and title</td>
+<td><img width="371" alt="card_minimal_notext_notitle" src="https://user-images.githubusercontent.com/2943684/234701286-1bd0d2bd-2df4-49e8-83ac-0b2c7207d3e8.png">
+</td>
+<td>
+
+```yaml
+cards:
+  - type: 'custom:pollenprognos-card'
+    city: Forshaga
+    show_text: false
+    title: false
+    minimal: true
+    days_to_show: 4 // HAS NO EFFECT IN MINIMAL LAYOUT
+    allergens:
+      - Al
+      - Alm
+      - Ambrosia
+      - Björk
+      - Ek
+      - Gråbo
+      - Gräs
+      - Hassel
+      - Sälg / vide
+```
+</td>
+</tr>
+  <tr>
+<td>Minimal, with text and title</td>
+<td><img width="369" alt="card_minimal_withtext_withtitle" src="https://user-images.githubusercontent.com/2943684/234700980-bfa4faa2-2e4b-41fd-8be0-f8d65d1f083d.png">
+</td>
+<td>
+
+```yaml
+cards:
+  - type: 'custom:pollenprognos-card'
+    city: Forshaga
+    show_text: true
+    minimal: true
+    days_to_show: 4 // HAS NO EFFECT IN MINIMAL LAYOUT
     allergens:
       - Al
       - Alm
