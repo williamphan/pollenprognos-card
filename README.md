@@ -10,7 +10,7 @@ Add https://github.com/krissen/pollenprognos-card as a custom integration.
 See more info: https://hacs.xyz/docs/faq/custom_repositories
 
 ## Credits
-Small improvements to [pollen-card] by @nydayand , who in turn rewrote @isabellaalstrom [pollenprognos-card](https://github.com/isabellaalstrom/lovelace-pollenprognos-card).
+Small improvements to [pollen-card](https://github.com/nidayand/lovelace-pollen-card) by @nydayand , who in turn rewrote @isabellaalstrom [pollenprognos-card](https://github.com/isabellaalstrom/lovelace-pollenprognos-card).
 
 ## Options
 
