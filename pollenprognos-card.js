@@ -93,7 +93,9 @@ import {
     _renderNormalHtml() {
           return html`
           <ha-card>
+              ${this.config.show_title == true ? html`
               ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
+              ` : ''}
               <table class="forecast">
                   <thead>
                   <th>Tjena 21:40</th>
