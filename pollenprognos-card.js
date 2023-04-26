@@ -69,18 +69,15 @@ import {
           return html`
           <ha-card>
               ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
-              <table class="forecast">
-                  <thead>
-                  <th>Tjena 00:01</th>
-                  </thead>
+              <div class="header">
                   ${this.sensors.map(sensor => html`
-                  <tr class="allergen" valign="top">
-                  <td><img class="allergen" src="${this.images[sensor.allergenReplaced+'_'+sensor.day0.state+'_png']}"/></td>
-                  <td>${sensor.allergenCapitalized}</td>
-                  </tr>
+                  <div class="sensor">
+                  <img class="allergen" src="${this.images[sensor.allergenReplaced+'_'+sensor.day0.state+'_png']}"/>
+                  <p>${sensor.allergenCapitalized}</p>
+                  </div>
                   `)
                   }
-              </table>
+              </div>
           </ha-card>
       `;
     }
