@@ -98,7 +98,7 @@ import {
               ` : ''}
               <table class="forecast">
                   <thead>
-                  <th>Tjena 21:40</th>
+                  <th></th>
                   ${this.config.days_to_show >= 1 ? html`
                   <th>Idag</th>
                   ` : ''}
