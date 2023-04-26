@@ -119,7 +119,7 @@ cards:
     show_text: false
     title: false
     minimal: true
-    days_to_show: 4 // HAS NO EFFECT IN MINIMAL LAYOUT
+    days_to_show: 4        # HAS NO EFFECT IN MINIMAL LAYOUT
     allergens:
       - Al
       - Alm
@@ -145,7 +145,7 @@ cards:
     city: Forshaga
     show_text: true
     minimal: true
-    days_to_show: 4 // HAS NO EFFECT IN MINIMAL LAYOUT
+    days_to_show: 4        # HAS NO EFFECT IN MINIMAL LAYOUT
     allergens:
       - Al
       - Alm
