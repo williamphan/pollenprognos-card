@@ -6,7 +6,7 @@ A Lovelace card to display the sensor data from the integration [Home Assistant 
 - [Home Assistant Pollenprognos integration](https://github.com/JohNan/homeassistant-pollenprognos)
 
 ### Install with HACS
-Add https://github.com/krissen/pollenkollen-card as a custom integration.
+Add https://github.com/krissen/pollenprognos-card as a custom integration.
 See more info: https://hacs.xyz/docs/faq/custom_repositories
 
 ## Credits
@@ -33,7 +33,7 @@ Small improvements to [pollen-card] by @nydayand , who in turn rewrote @isabella
 
 ```yaml
 cards:
-  - type: 'custom:pollenkollen-card'
+  - type: 'custom:pollenprognos-card'
     city: Forshaga
     show_text: false
     days_to_show: 0
@@ -57,7 +57,7 @@ cards:
 
 ```yaml
 cards:
-  - type: 'custom:pollenkollen-card'
+  - type: 'custom:pollenprognos-card'
     city: Forshaga
     show_text: false
     days_to_show: 2
@@ -81,7 +81,7 @@ cards:
 
 ```yaml
 cards:
-  - type: 'custom:pollenkollen-card'
+  - type: 'custom:pollenprognos-card'
     city: Forshaga
     show_text: true
     days_to_show: 4
