@@ -73,7 +73,7 @@ import {
                   ${this.sensors.map(sensor => html`
                   <div class="sensor">
                   <img class="box" src="${this.images[sensor.allergenReplaced+'_'+sensor.day0.state+'_png']}"/>
-                  <p>${sensor.allergenCapitalized}</p>
+                  <p>${sensor.allergenCapitalized+' ('+sensor.day0.state+')'}</p>
                   </div>
                   `)
                   }
