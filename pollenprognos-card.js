@@ -36,6 +36,7 @@ import {
           dict.allergenReplaced = replaceAAO(allergens[i]);
           //Used for type allergen in card
           dict.allergenCapitalized = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1));
+          dict.allergenShort = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1).replace(' \/ vide',''));
           //Sensor
           dict.allergenSensorName = `sensor.pollen_${city}_${dict.allergenReplaced}`;
           dict.allergen = hass.states[`sensor.pollen_${city}_${dict.allergenReplaced}`];
@@ -68,12 +69,19 @@ import {
     _renderMinimalHtml() {
           return html`
           <ha-card>
+              ${this.config.show_title == true ? html`
               ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
+              ` : ''}
+              ${this.config.show_title == false ? html`
+              <p></p>
+              ` : ''}
               <div class="flex-container">
                   ${this.sensors.map(sensor => html`
                   <div class="sensor">
                   <img class="box" src="${this.images[sensor.allergenReplaced+'_'+sensor.day0.state+'_png']}"/>
-                  <p>${sensor.allergenCapitalized+' ('+sensor.day0.state+')'}</p>
+                  ${this.config.show_text == true ? html`
+                  <p>${sensor.allergenShort+' ('+sensor.day0.state+')'}</p>
+                  ` : ''}
                   </div>
                   `)
                   }
@@ -307,10 +315,8 @@ import {
         td {
           width: 100px;
         }
-            ha-card {
+         .flex-container {
           padding: 16px;
-        }
-         .flex-container {
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
@@ -326,27 +332,11 @@ import {
         }
          .sensor {
           display: block;
-          min-width: 16.66%;
+          min-width: 20%;
           flex: 1;
         }
-         .flex-container {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          text-align: center;
-          justify-content: space-evenly;
-          align-items: center;
-        }
-         @supports not (-ms-flex: 1) {
-          .flex-container {
-            height: auto; /* 2 */
-            // min-height: 24em; /* 2 */
-          }
-        }
-         .sensor {
-          display: block;
-          min-width: 16.66%;
-          flex: 1;
+        p.nowrap {
+       white-space: nowrap;
         }
       `;
     }
