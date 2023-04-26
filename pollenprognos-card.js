@@ -69,10 +69,8 @@ import {
     _renderMinimalHtml() {
           return html`
           <ha-card>
-              ${this.config.show_title == true ? html`
               ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
-              ` : ''}
-              ${this.config.show_title == false ? html`
+              ${this.config.title == false ? html`
               <p></p>
               ` : ''}
               <div class="flex-container">
@@ -93,9 +91,7 @@ import {
     _renderNormalHtml() {
           return html`
           <ha-card>
-              ${this.config.show_title == true ? html`
               ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
-              ` : ''}
               <table class="forecast">
                   <thead>
                   <th></th>
