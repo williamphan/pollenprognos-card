@@ -69,10 +69,10 @@ import {
           return html`
           <ha-card>
               ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
-              <div class="header">
+              <div class="flex-container">
                   ${this.sensors.map(sensor => html`
                   <div class="sensor">
-                  <img class="allergen" src="${this.images[sensor.allergenReplaced+'_'+sensor.day0.state+'_png']}"/>
+                  <img class="box" src="${this.images[sensor.allergenReplaced+'_'+sensor.day0.state+'_png']}"/>
                   <p>${sensor.allergenCapitalized}</p>
                   </div>
                   `)
@@ -293,9 +293,6 @@ import {
           width: 100px;
           font-size: smaller;
         }
-        img {
-          width: 30px;
-        }
         img.allergen {
           width: 40px;
           height: 40px;
@@ -309,6 +306,47 @@ import {
         }
         td {
           width: 100px;
+        }
+            ha-card {
+          padding: 16px;
+        }
+         .flex-container {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          text-align: center;
+          justify-content: space-evenly;
+          align-items: center;
+        }
+         @supports not (-ms-flex: 1) {
+          .flex-container {
+            height: auto; /* 2 */
+            // min-height: 24em; /* 2 */
+          }
+        }
+         .sensor {
+          display: block;
+          min-width: 16.66%;
+          flex: 1;
+        }
+         .flex-container {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          text-align: center;
+          justify-content: space-evenly;
+          align-items: center;
+        }
+         @supports not (-ms-flex: 1) {
+          .flex-container {
+            height: auto; /* 2 */
+            // min-height: 24em; /* 2 */
+          }
+        }
+         .sensor {
+          display: block;
+          min-width: 16.66%;
+          flex: 1;
         }
       `;
     }
