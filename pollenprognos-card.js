@@ -71,56 +71,13 @@ import {
               ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
               <table class="forecast">
                   <thead>
-                  <th>Tjena 00:00</th>
-                  ${this.config.days_to_show >= 1 ? html`
-                  <th>Idag</th>
-                  ` : ''}
-                  ${this.config.days_to_show >= 2 ? html`
-		  <th>${this.sensors[0].day1.day}</th>
-                  ` : ''}
-                  ${this.config.days_to_show >= 3 ? html`
-		  <th>${this.sensors[0].day2.day}</th>
-                  ` : ''}
-                  ${this.config.days_to_show >= 4 ? html`
-                  <th>${this.sensors[0].day3.day}</th>
-                  ` : ''}
+                  <th>Tjena 00:01</th>
                   </thead>
                   ${this.sensors.map(sensor => html`
                   <tr class="allergen" valign="top">
                   <td><img class="allergen" src="${this.images[sensor.allergenReplaced+'_'+sensor.day0.state+'_png']}"/></td>
-                  ${this.config.days_to_show >= 1 ? html`
-                  <td rowspan="2"><img src="${this.images[sensor.day0.state+'_png']}"/></td>
-                  ` : ''}
-                  ${this.config.days_to_show >= 2 ? html`
-                  <td rowspan="2"><img src="${this.images[sensor.day1.state+'_png']}"/></td>
-                  ` : ''}
-                  ${this.config.days_to_show >= 3 ? html`
-		  <td rowspan="2"><img src="${this.images[sensor.day2.state+'_png']}"/></td>
-                  ` : ''}
-                  ${this.config.days_to_show >= 4 ? html`
-                  <td rowspan="2"><img src="${this.images[sensor.day3.state+'_png']}"/></td>
-                  ` : ''}
+                  <td>${sensor.allergenCapitalized}</td>
                   </tr>
-                  <tr class="allergen" valign="top">
-		  <td>${sensor.allergenCapitalized}</td>
-		  </tr>
-                  ${this.config.show_text == true ? html`
-                  <tr class="allergen" valign="top">
-                  <td>&nbsp;</td>
-                  ${this.config.days_to_show >= 1 ? html`
-                  <td><p>${sensor.day0.state_text}</p></td>
-                  ` : ''}
-                  ${this.config.days_to_show >= 2 ? html`
-                  <td><p>${sensor.day1.state_text}</p></td>
-                  ` : ''}
-                  ${this.config.days_to_show >= 3 ? html`
-		  <td><p>${sensor.day2.state_text}</p></td>
-                  ` : ''}
-                  ${this.config.days_to_show >= 4 ? html`
-                  <td><p>${sensor.day3.state_text}</p></td>
-                  ` : ''}
-                  </tr>
-                  ` : ''}
                   `)
                   }
               </table>
