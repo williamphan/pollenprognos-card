@@ -60,6 +60,7 @@ import {
           if ((testval(dict.day0.state) + testval(dict.day1.state) + testval(dict.day2.state) + testval(dict.day3.state)) > 0 ){
               sensors.push(dict);
           }
+      }
    
   
       for (let i = 0; i < sensors.length; i++) {
