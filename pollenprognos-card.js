@@ -37,6 +37,13 @@ import {
       } else if (this.config.title.length > 0){
           this.header = this.config.title;
       }
+
+        if ( this.config.show_text == false ) {
+            this.rowspan = 2;
+        } else {
+            this.rowspan = 1;
+        }
+
       
       for (var i = 0; i < allergens.length; i++) {
           var dict = {};
@@ -58,9 +65,9 @@ import {
           dict.day2 = { name: dict.allergenCapitalized, day: attributeKeys[1], state: dict.allergen.attributes[attributeKeys[1]], state_text: state_text[parseInt(dict.allergen.attributes[attributeKeys[1]])]};
           dict.day3 = { name: dict.allergenCapitalized, day: attributeKeys[2], state: dict.allergen.attributes[attributeKeys[2]], state_text: state_text[parseInt(dict.allergen.attributes[attributeKeys[2]])]};
   
-          if ((testval(dict.day0.state) + testval(dict.day1.state) + testval(dict.day2.state) + testval(dict.day3.state)) > 0 ){
+          // if ((testval(dict.day0.state) + testval(dict.day1.state) + testval(dict.day2.state) + testval(dict.day3.state)) > 0 ){
               sensors.push(dict);
-          }
+          // }
       }
    
   
@@ -123,24 +130,26 @@ import {
                   <tr class="allergen" valign="top">
                   <td><img class="allergen" src="${this.images[sensor.allergenReplaced+'_'+sensor.day0.state+'_png']}"/></td>
                   ${this.config.days_to_show >= 1 ? html`
-                  <td rowspan="2"><img src="${this.images[sensor.day0.state+'_png']}"/></td>
+                  <td rowspan="${this.rowspan}"><img src="${this.images[sensor.day0.state+'_png']}"/></td>
                   ` : ''}
                   ${this.config.days_to_show >= 2 ? html`
-                  <td rowspan="2"><img src="${this.images[sensor.day1.state+'_png']}"/></td>
+                  <td rowspan="${this.rowspan}"><img src="${this.images[sensor.day1.state+'_png']}"/></td>
                   ` : ''}
                   ${this.config.days_to_show >= 3 ? html`
-		  <td rowspan="2"><img src="${this.images[sensor.day2.state+'_png']}"/></td>
+                  <td rowspan="${this.rowspan}"><img src="${this.images[sensor.day2.state+'_png']}"/></td>
                   ` : ''}
                   ${this.config.days_to_show >= 4 ? html`
-                  <td rowspan="2"><img src="${this.images[sensor.day3.state+'_png']}"/></td>
+                  <td rowspan="${this.rowspan}"><img src="${this.images[sensor.day3.state+'_png']}"/></td>
                   ` : ''}
                   </tr>
+                  ${this.config.show_text == false ? html`
                   <tr class="allergen" valign="top">
-		  <td>${sensor.allergenCapitalized}</td>
-		  </tr>
+                      <td>${sensor.allergenCapitalized}</td>
+                  </tr>
+                  ` : ''}
                   ${this.config.show_text == true ? html`
                   <tr class="allergen" valign="top">
-                  <td>&nbsp;</td>
+                      <td>${sensor.allergenCapitalized}</td>
                   ${this.config.days_to_show >= 1 ? html`
                   <td><p>${sensor.day0.state_text}</p></td>
                   ` : ''}
@@ -148,7 +157,7 @@ import {
                   <td><p>${sensor.day1.state_text}</p></td>
                   ` : ''}
                   ${this.config.days_to_show >= 3 ? html`
-		  <td><p>${sensor.day2.state_text}</p></td>
+                  <td><p>${sensor.day2.state_text}</p></td>
                   ` : ''}
                   ${this.config.days_to_show >= 4 ? html`
                   <td><p>${sensor.day3.state_text}</p></td>
