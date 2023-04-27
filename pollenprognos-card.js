@@ -65,9 +65,9 @@ import {
           dict.day2 = { name: dict.allergenCapitalized, day: attributeKeys[1], state: dict.allergen.attributes[attributeKeys[1]], state_text: state_text[parseInt(dict.allergen.attributes[attributeKeys[1]])]};
           dict.day3 = { name: dict.allergenCapitalized, day: attributeKeys[2], state: dict.allergen.attributes[attributeKeys[2]], state_text: state_text[parseInt(dict.allergen.attributes[attributeKeys[2]])]};
   
-          // if ((testval(dict.day0.state) + testval(dict.day1.state) + testval(dict.day2.state) + testval(dict.day3.state)) > 0 ){
+          if ((testval(dict.day0.state) + testval(dict.day1.state) + testval(dict.day2.state) + testval(dict.day3.state)) > 0 ){
               sensors.push(dict);
-          // }
+          }
       }
    
   
