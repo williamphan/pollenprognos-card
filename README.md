@@ -1,16 +1,26 @@
 # pollenprognos-card
+
 A Lovelace card to display the sensor data from the integration [Home Assistant Pollenprognos integration](https://github.com/JohNan/homeassistant-pollenprognos).
 ![Screenshot 2022-08-05 at 22 37 45](https://user-images.githubusercontent.com/2181965/183159066-2cef1a6e-e59b-4bb3-832b-7bff781b471c.png)
 
 ## Requirement
+
 - [Home Assistant Pollenprognos integration](https://github.com/JohNan/homeassistant-pollenprognos)
 
 ### Install with HACS
+
 Add https://github.com/krissen/pollenprognos-card as a custom integration.
 See more info: https://hacs.xyz/docs/faq/custom_repositories
 
 ## Credits
+
 Small improvements to [pollen-card](https://github.com/nidayand/lovelace-pollen-card) by @nidayand , who in turn rewrote @isabellaalstrom's [pollenprognos-card](https://github.com/isabellaalstrom/lovelace-pollenprognos-card).
+
+## Note
+
+In minimal mode, you might notice some odd spelling. For instance, "Hassel" is shortened to "Hssel". This is to avoid line breaks which would break symmetry. *Let me know if this bothers you*. Create an issue on the repo or send me a PM. I can add an option to turn it off, if there's interest.
+
+Spelling in the normal (that is, not-minimal) card is as expected. ;-)
 
 ## Options
 
