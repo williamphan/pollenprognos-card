@@ -45,7 +45,8 @@ import {
           dict.allergenReplaced = replaceAAO(allergens[i]);
           //Used for type allergen in card
           dict.allergenCapitalized = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1));
-          dict.allergenShort = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1).replace(' \/ vide',''));
+          //Used for allergen in minimal card
+          dict.allergenShort = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1)).replace('Sälg \/ vide','Vide').replace('mbrosia', 'msia');
           //Sensor
           dict.allergenSensorName = `sensor.pollen_${city}_${dict.allergenReplaced}`;
           dict.allergen = hass.states[`sensor.pollen_${city}_${dict.allergenReplaced}`];
