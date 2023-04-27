@@ -19,6 +19,15 @@ import {
       var replaceAAO = function(intext){
 	      return intext.toLowerCase().replaceAll("å","a").replaceAll("ä","a").replaceAll("ö","o").replace(' \/ ','_');
       }
+        // Function that returns 0 if value is below 0
+        var testval = function (val) {
+            if (Number(val) < 0) {
+                return 0;
+            } else {
+                console.log("Value below zero; possible error. Returning 0.")
+                return val;
+            }
+        }
       var city = replaceAAO(this.config.city);
       const allergens = this.config.allergens;
       const state_text = ["Ingen pollen", "Låga halter","Låga-måttliga halter","Måttliga halter","Måttliga-höga halter","Höga halter","Mycket höga halter"];
