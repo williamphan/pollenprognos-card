@@ -53,6 +53,12 @@ import {
             this.days_to_show = this.config.days_to_show;
         }
 
+        if (this.config.pollen_threshold === undefined) {
+            this.pollen_threshold = 1;
+        } else {
+            this.pollen_threshold = this.config.pollen_threshold;
+        }
+
       for (var i = 0; i < allergens.length; i++) {
           var dict = {};
   
@@ -73,7 +79,12 @@ import {
           dict.day2 = { name: dict.allergenCapitalized, day: attributeKeys[1], state: testval(dict.allergen.attributes[attributeKeys[1]]), state_text: state_text[testval(parseInt(dict.allergen.attributes[attributeKeys[1]]))]};
           dict.day3 = { name: dict.allergenCapitalized, day: attributeKeys[2], state: testval(dict.allergen.attributes[attributeKeys[2]]), state_text: state_text[testval(parseInt(dict.allergen.attributes[attributeKeys[2]]))]};
   
-          if ((testval(dict.day0.state) + testval(dict.day1.state) + testval(dict.day2.state) + testval(dict.day3.state)) > 0 ){
+          if (this.pollen_threshold == 0) {
+              sensors.push(dict);
+          } else if ((testval(dict.day0.state) >= this.pollen_threshold ||
+              testval(dict.day1.state) >= this.pollen_threshold ||
+              testval(dict.day2.state) >= this.pollen_threshold ||
+              testval(dict.day3.state) >= this.pollen_threshold)) {
               sensors.push(dict);
           }
       }
