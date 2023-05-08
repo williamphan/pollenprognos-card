@@ -20,6 +20,9 @@ import {
 	      return intext.toLowerCase().replaceAll("å","a").replaceAll("ä","a").replaceAll("ö","o").replace(' \/ ','_');
       }
         // Function that returns 0 if value is below 0
+        // Used to filter away -1 values
+        // TODO: a more proper way to handle it would be to add
+        // support for "na", which, I think, -1 really is.
         var testval = function (val) {
             if (Number(val) < 0) {
                 return 0;
@@ -44,7 +47,6 @@ import {
             this.rowspan = 1;
         }
 
-      
       for (var i = 0; i < allergens.length; i++) {
           var dict = {};
   
@@ -60,10 +62,10 @@ import {
   
           //Add to list of sensors to be displayed
           var attributeKeys = Object.keys(dict.allergen.attributes);
-          dict.day0 = { name: dict.allergenCapitalized, day: "Idag", state: dict.allergen.state, state_text: state_text[parseInt(dict.allergen.state)]};
-          dict.day1 = { name: dict.allergenCapitalized, day: attributeKeys[0], state: dict.allergen.attributes[attributeKeys[0]], state_text: state_text[parseInt(dict.allergen.attributes[attributeKeys[0]])]};
-          dict.day2 = { name: dict.allergenCapitalized, day: attributeKeys[1], state: dict.allergen.attributes[attributeKeys[1]], state_text: state_text[parseInt(dict.allergen.attributes[attributeKeys[1]])]};
-          dict.day3 = { name: dict.allergenCapitalized, day: attributeKeys[2], state: dict.allergen.attributes[attributeKeys[2]], state_text: state_text[parseInt(dict.allergen.attributes[attributeKeys[2]])]};
+          dict.day0 = { name: dict.allergenCapitalized, day: "Idag", state: testval(dict.allergen.state), state_text: state_text[testval(parseInt(dict.allergen.state))]};
+          dict.day1 = { name: dict.allergenCapitalized, day: attributeKeys[0], state: testval(dict.allergen.attributes[attributeKeys[0]]), state_text: state_text[testval(parseInt(dict.allergen.attributes[attributeKeys[0]]))]};
+          dict.day2 = { name: dict.allergenCapitalized, day: attributeKeys[1], state: testval(dict.allergen.attributes[attributeKeys[1]]), state_text: state_text[testval(parseInt(dict.allergen.attributes[attributeKeys[1]]))]};
+          dict.day3 = { name: dict.allergenCapitalized, day: attributeKeys[2], state: testval(dict.allergen.attributes[attributeKeys[2]]), state_text: state_text[testval(parseInt(dict.allergen.attributes[attributeKeys[2]]))]};
   
           if ((testval(dict.day0.state) + testval(dict.day1.state) + testval(dict.day2.state) + testval(dict.day3.state)) > 0 ){
               sensors.push(dict);
