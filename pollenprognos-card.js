@@ -97,6 +97,24 @@ import {
             console.log(log_text)
           }
         }
+
+        //Sort by day0
+        if (this.config.sort === undefined) {
+            // Name ascending
+            sensors.sort((a, b) => (a.allergenCapitalized > b.allergenCapitalized) ? 1 : -1)
+        } else if (this.config.sort == "value_ascending") {
+            // Value ascending
+            sensors.sort((a, b) => (parseInt(a.day0.state) > parseInt(b.day0.state)) ? 1 : -1)
+        } else if (this.config.sort == "value_descending") {
+            // Value descending
+            sensors.sort((a, b) => (parseInt(a.day0.state) < parseInt(b.day0.state)) ? 1 : -1)
+        } else if (this.config.sort == "name_descending") {
+            // Name descending
+            sensors.sort((a, b) => (a.allergenCapitalized < b.allergenCapitalized) ? 1 : -1)
+        } else {
+            // Name ascending
+            sensors.sort((a, b) => (a.allergenCapitalized > b.allergenCapitalized) ? 1 : -1)
+        }
   
         //Add to class
         this.sensors = sensors;

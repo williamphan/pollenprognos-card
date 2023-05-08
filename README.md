@@ -37,6 +37,7 @@ Spelling in the normal (that is, not-minimal) card is as expected. ;-)
 | minimal | boolean | **Optional** | Use minimal, flexible layout
 | pollen_threshold | integer | **Optional** | Threshold of pollen value, for any of days 1-4, to show. Possible values: 0 to 6. Default: 1.
 | show_text | boolean | **Optional** | Set to `true` if you want to show the state text under the images
+| sort | string | **Optional** | Change how list of allergens is sorted. Possible values: `value_ascending`, `value_descending`, `name_ascending` (default), and `name_descending`. If sorted by value, today's value is used.
 | title | boolean | **Optional** | Custom title if string, boolean value if generated or not to show. Default is generated text
 
 ## Examples
