@@ -32,11 +32,12 @@ Spelling in the normal (that is, not-minimal) card is as expected. ;-)
 | ---- | ---- | ------- | -----------
 | type | string | **Required** | `custom:pollen-card`
 | city | string | **Required** | City from which you have sensors
-| days_to_show | integer | **Optional** | How many days to show, 0 (only allergen) to 4.
 | allergens | list | **Required** | List of allergens for which you have sensors
-| title | boolean | **Optional** | Custom title if string, boolean value if generated or not to show. Default is generated text
-| show_text | boolean | **Optional** | Set to `true` if you want to show the state text under the images
+| days_to_show | integer | **Optional** | How many days to show, 0 (only allergen) to 4. Default: 4.
 | minimal | boolean | **Optional** | Use minimal, flexible layout
+| pollen_threshold | integer | **Optional** | Threshold of pollen value, for any of days 1-4, to show. Possible values: 0 to 6. Default: 1.
+| show_text | boolean | **Optional** | Set to `true` if you want to show the state text under the images
+| title | boolean | **Optional** | Custom title if string, boolean value if generated or not to show. Default is generated text
 
 ## Examples
 
