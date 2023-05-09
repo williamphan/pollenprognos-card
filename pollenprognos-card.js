@@ -119,8 +119,8 @@ class PollenCardv2 extends LitElement {
 
         //Sort by day0
         if (this.config.sort === undefined) {
-            // Name ascending
-            sensors.sort((a, b) => (a.allergenCapitalized > b.allergenCapitalized) ? 1 : -1)
+            // Value descending
+            sensors.sort((a, b) => (parseInt(a.day0.state) < parseInt(b.day0.state)) ? 1 : -1)
         } else if (this.config.sort == "value_ascending") {
             // Value ascending
             sensors.sort((a, b) => (parseInt(a.day0.state) > parseInt(b.day0.state)) ? 1 : -1)
@@ -131,8 +131,8 @@ class PollenCardv2 extends LitElement {
             // Name descending
             sensors.sort((a, b) => (a.allergenCapitalized < b.allergenCapitalized) ? 1 : -1)
         } else {
-            // Name ascending
-            sensors.sort((a, b) => (a.allergenCapitalized > b.allergenCapitalized) ? 1 : -1)
+            // Value descending
+            sensors.sort((a, b) => (parseInt(a.day0.state) < parseInt(b.day0.state)) ? 1 : -1)
         }
 
         //Add to class
