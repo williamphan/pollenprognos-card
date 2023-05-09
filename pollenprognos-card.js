@@ -93,17 +93,29 @@ class PollenCardv2 extends LitElement {
 
             //Add to list of sensors to be displayed
             var attributeKeys = Object.keys(dict.allergen.attributes);
-            dict.day0 = { name: dict.allergenCapitalized, day: "Idag", state: dict.allergen.state, state_text: test_text(parseInt(dict.allergen.state))};
-            dict.day1 = { name: dict.allergenCapitalized, day: attributeKeys[0], state: test_val(dict.allergen.attributes[attributeKeys[0]]), state_text: state_text[test_val(parseInt(dict.allergen.attributes[attributeKeys[0]]))]};
-            dict.day2 = { name: dict.allergenCapitalized, day: attributeKeys[1], state: test_val(dict.allergen.attributes[attributeKeys[1]]), state_text: state_text[test_val(parseInt(dict.allergen.attributes[attributeKeys[1]]))]};
-            dict.day3 = { name: dict.allergenCapitalized, day: attributeKeys[2], state: dict.allergen.attributes[attributeKeys[2]], state_text: test_text(parseInt(dict.allergen.attributes[attributeKeys[2]]))};
+            dict.day0 = { name: dict.allergenCapitalized,
+                day: "Idag",
+                state: test_val(dict.allergen.state),
+                state_text: test_text(test_val(parseInt(dict.allergen.state)))};
+            dict.day1 = { name: dict.allergenCapitalized,
+                day: attributeKeys[0],
+                state: test_val(dict.allergen.attributes[attributeKeys[0]]),
+                state_text: test_text(test_val(parseInt(dict.allergen.attributes[attributeKeys[0]])))};
+            dict.day2 = { name: dict.allergenCapitalized,
+                day: attributeKeys[1],
+                state: test_val(dict.allergen.attributes[attributeKeys[1]]),
+                state_text: test_text(test_val(parseInt(dict.allergen.attributes[attributeKeys[1]])))};
+            dict.day3 = { name: dict.allergenCapitalized,
+                day: attributeKeys[2],
+                state: test_val(dict.allergen.attributes[attributeKeys[2]]),
+                state_text: test_text(parseInt(dict.allergen.attributes[attributeKeys[2]]))};
 
             if (this.pollen_threshold == 0) {
                 sensors.push(dict);
-            } else if ((test_val(dict.day0.state) >= this.pollen_threshold ||
-                test_val(dict.day1.state) >= this.pollen_threshold ||
-                test_val(dict.day2.state) >= this.pollen_threshold ||
-                test_val(dict.day3.state) >= this.pollen_threshold)) {
+            } else if (dict.day0.state >= this.pollen_threshold ||
+                dict.day1.state >= this.pollen_threshold ||
+                dict.day2.state >= this.pollen_threshold ||
+                dict.day3.state >= this.pollen_threshold) {
                 sensors.push(dict);
             }
         }
