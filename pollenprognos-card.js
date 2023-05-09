@@ -2,23 +2,23 @@ import {
     LitElement,
     html,
     css
-  } from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
-  
-  class PollenCardv2 extends LitElement {
+} from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
+
+class PollenCardv2 extends LitElement {
     static get properties() {
-      return {
-        hass: {},
-        config: {}
-      };
+        return {
+            hass: {},
+            config: {}
+        };
     }
-  
+
     set hass(hass) {
-      this._hass = hass;
-      var sensors = [];
-  
-      var replaceAAO = function(intext){
-	      return intext.toLowerCase().replaceAll("å","a").replaceAll("ä","a").replaceAll("ö","o").replace(' \/ ','_');
-      }
+        this._hass = hass;
+        var sensors = [];
+
+        var replaceAAO = function(intext){
+            return intext.toLowerCase().replaceAll("å","a").replaceAll("ä","a").replaceAll("ö","o").replace(' \/ ','_');
+        }
         // Function that returns 0 if value is below 0
         // Used to filter away -1 values
         // TODO: a more proper way to handle it would be to add
@@ -44,15 +44,15 @@ import {
                 return state_text[val]}
         }
 
-      var city = replaceAAO(this.config.city);
-      const allergens = this.config.allergens;
-      const state_text = ["Ingen pollen", "Låga halter","Låga-måttliga halter","Måttliga halter","Måttliga-höga halter","Höga halter","Mycket höga halter"];
-  
-      if (this.config.title == null || this.config.title == true) {
-          this.header = `Pollenprognos ${this.config.city.charAt(0).toUpperCase() + this.config.city.slice(1)}`;
-      } else if (this.config.title.length > 0){
-          this.header = this.config.title;
-      }
+        var city = replaceAAO(this.config.city);
+        const allergens = this.config.allergens;
+        const state_text = ["Ingen pollen", "Låga halter","Låga-måttliga halter","Måttliga halter","Måttliga-höga halter","Höga halter","Mycket höga halter"];
+
+        if (this.config.title == null || this.config.title == true) {
+            this.header = `Pollenprognos ${this.config.city.charAt(0).toUpperCase() + this.config.city.slice(1)}`;
+        } else if (this.config.title.length > 0){
+            this.header = this.config.title;
+        }
 
         if ( this.config.show_text == false ) {
             this.rowspan = 2;
@@ -72,43 +72,43 @@ import {
             this.pollen_threshold = this.config.pollen_threshold;
         }
 
-      for (var i = 0; i < allergens.length; i++) {
-          var dict = {};
-  
-          //Used to find right image and sensor
-          dict.allergenReplaced = replaceAAO(allergens[i]);
-          //Used for type allergen in card
-          dict.allergenCapitalized = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1));
-          //Used for allergen in minimal card
-          dict.allergenShort = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1)).replace('Sälg \/ vide','Vide').replace('mbrosia', 'msia').replace('assel', 'ssel');
-          //Sensor
-          dict.allergenSensorName = `sensor.pollen_${city}_${dict.allergenReplaced}`;
-          dict.allergen = hass.states[`sensor.pollen_${city}_${dict.allergenReplaced}`];
-  
-          //Add to list of sensors to be displayed
-          var attributeKeys = Object.keys(dict.allergen.attributes);
-          dict.day0 = { name: dict.allergenCapitalized, day: "Idag", state: dict.allergen.state, state_text: test_text(parseInt(dict.allergen.state))};
-          dict.day1 = { name: dict.allergenCapitalized, day: attributeKeys[0], state: test_val(dict.allergen.attributes[attributeKeys[0]]), state_text: state_text[test_val(parseInt(dict.allergen.attributes[attributeKeys[0]]))]};
-          dict.day2 = { name: dict.allergenCapitalized, day: attributeKeys[1], state: test_val(dict.allergen.attributes[attributeKeys[1]]), state_text: state_text[test_val(parseInt(dict.allergen.attributes[attributeKeys[1]]))]};
-          dict.day3 = { name: dict.allergenCapitalized, day: attributeKeys[2], state: dict.allergen.attributes[attributeKeys[2]], state_text: test_text(parseInt(dict.allergen.attributes[attributeKeys[2]]))};
-  
-          if (this.pollen_threshold == 0) {
-              sensors.push(dict);
-          } else if ((test_val(dict.day0.state) >= this.pollen_threshold ||
-              test_val(dict.day1.state) >= this.pollen_threshold ||
-              test_val(dict.day2.state) >= this.pollen_threshold ||
-              test_val(dict.day3.state) >= this.pollen_threshold)) {
-              sensors.push(dict);
-          }
-      }
-   
-  
-      for (let i = 0; i < sensors.length; i++) {
-          const element = sensors[i];
-          if (element.state == "unknown" ) {
-            var log_text = `A sensor for "${element.allergen_locale}" is returning unknown, you should probably check your config for that sensor in the custom component.`;
-            console.log(log_text)
-          }
+        for (var i = 0; i < allergens.length; i++) {
+            var dict = {};
+
+            //Used to find right image and sensor
+            dict.allergenReplaced = replaceAAO(allergens[i]);
+            //Used for type allergen in card
+            dict.allergenCapitalized = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1));
+            //Used for allergen in minimal card
+            dict.allergenShort = (allergens[i].charAt(0).toUpperCase() + allergens[i].slice(1)).replace('Sälg \/ vide','Vide').replace('mbrosia', 'msia').replace('assel', 'ssel');
+            //Sensor
+            dict.allergenSensorName = `sensor.pollen_${city}_${dict.allergenReplaced}`;
+            dict.allergen = hass.states[`sensor.pollen_${city}_${dict.allergenReplaced}`];
+
+            //Add to list of sensors to be displayed
+            var attributeKeys = Object.keys(dict.allergen.attributes);
+            dict.day0 = { name: dict.allergenCapitalized, day: "Idag", state: dict.allergen.state, state_text: test_text(parseInt(dict.allergen.state))};
+            dict.day1 = { name: dict.allergenCapitalized, day: attributeKeys[0], state: test_val(dict.allergen.attributes[attributeKeys[0]]), state_text: state_text[test_val(parseInt(dict.allergen.attributes[attributeKeys[0]]))]};
+            dict.day2 = { name: dict.allergenCapitalized, day: attributeKeys[1], state: test_val(dict.allergen.attributes[attributeKeys[1]]), state_text: state_text[test_val(parseInt(dict.allergen.attributes[attributeKeys[1]]))]};
+            dict.day3 = { name: dict.allergenCapitalized, day: attributeKeys[2], state: dict.allergen.attributes[attributeKeys[2]], state_text: test_text(parseInt(dict.allergen.attributes[attributeKeys[2]]))};
+
+            if (this.pollen_threshold == 0) {
+                sensors.push(dict);
+            } else if ((test_val(dict.day0.state) >= this.pollen_threshold ||
+                test_val(dict.day1.state) >= this.pollen_threshold ||
+                test_val(dict.day2.state) >= this.pollen_threshold ||
+                test_val(dict.day3.state) >= this.pollen_threshold)) {
+                sensors.push(dict);
+            }
+        }
+
+
+        for (let i = 0; i < sensors.length; i++) {
+            const element = sensors[i];
+            if (element.state == "unknown" ) {
+                var log_text = `A sensor for "${element.allergen_locale}" is returning unknown, you should probably check your config for that sensor in the custom component.`;
+                console.log(log_text)
+            }
         }
 
         //Sort by day0
@@ -128,14 +128,14 @@ import {
             // Name ascending
             sensors.sort((a, b) => (a.allergenCapitalized > b.allergenCapitalized) ? 1 : -1)
         }
-  
+
         //Add to class
         this.sensors = sensors;
         console.log(sensors);
     }
 
     _renderMinimalHtml() {
-          return html`
+        return html`
           <ha-card>
               ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
               ${this.config.title == false ? html`
@@ -157,7 +157,7 @@ import {
     }
 
     _renderNormalHtml() {
-          return html`
+        return html`
           <ha-card>
               ${this.header ? html`<h1 class="card-header" style="padding-bottom: 0px;">${this.header}</h1>` : ''}
               <table class="forecast">
@@ -167,10 +167,10 @@ import {
                   <th>Idag</th>
                   ` : ''}
                   ${this.days_to_show >= 2 ? html`
-		  <th>${this.sensors[0].day1.day}</th>
+          <th>${this.sensors[0].day1.day}</th>
                   ` : ''}
                   ${this.days_to_show >= 3 ? html`
-		  <th>${this.sensors[0].day2.day}</th>
+          <th>${this.sensors[0].day2.day}</th>
                   ` : ''}
                   ${this.days_to_show >= 4 ? html`
                   <th>${this.sensors[0].day3.day}</th>
@@ -220,12 +220,12 @@ import {
           </ha-card>
       `;
     }
-  
+
     render() {
-      if (this.sensors.length<1) {
-	      console.log("No sensor data, not rendering card.")
-      return;
-      }
+        if (this.sensors.length<1) {
+            console.log("No sensor data, not rendering card.")
+            return;
+        }
         if ( this.config.minimal == true ) {
             return html
             `
@@ -240,16 +240,16 @@ import {
             `
         }
     }
-  
+
     setConfig(config) {
-      if (!config.allergens) {
-          throw new Error('You need to specify a list of allergens');
+        if (!config.allergens) {
+            throw new Error('You need to specify a list of allergens');
         }
         if (!config.city) {
-          throw new Error('You need to define a city');
+            throw new Error('You need to define a city');
         }
         this.config = config;
-  
+
         //Save images
         var myImages = {};
         myImages['-1_png']='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAakAAAGpCAMAAAAA8jlpAAAAwXpUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHjabVDbEcMgDPtnio6AHxB7HNLQu27Q8Wuw0wttfYekWIlinPrr+Ui3UQicuGxStdZsxcqKzYRkrzYRMk/0loaCtZ8+BhqTMbkh1RnOfnxwMjRT5RIk9zD21VB2RvkKQicaEw19RJBGEKEbEAHNr5Wryna9wt7zWuInDWBZx/553mx7R7H/EGInoGxIxD4AjUOJmokyUXC2TJO9PLBGmC3k357OSm9/T1mAHrZnHwAAAYNpQ0NQSUNDIHByb2ZpbGUAAHicfZE9SMNAHMVfW0uLVBysIOqQoTrZRUUcaxWKUCHUCq06mFz6BU0akhQXR8G14ODHYtXBxVlXB1dBEPwAcXVxUnSREv+XFFrEeHDcj3f3HnfvAH+zylSzJwGommVkUkkhl18VQq8IIoxBjAASM/U5UUzDc3zdw8fXuzjP8j735+hTCiYDfAJxgumGRbxBPLNp6Zz3iaOsLCnE58QTBl2Q+JHrsstvnEsO+3lm1Mhm5omjxEKpi+UuZmVDJZ4mjimqRvn+nMsK5y3OarXO2vfkL4wUtJVlrtMcRQqLWIIIATLqqKAKC3FaNVJMZGg/6eEfdvwiuWRyVcDIsYAaVEiOH/wPfndrFqcm3aRIEgi+2PbHGBDaBVoN2/4+tu3WCRB4Bq60jr/WBGY/SW90tNgR0L8NXFx3NHkPuNwBhp50yZAcKUDTXywC72f0TXlg4BboXXN7a+/j9AHIUlfpG+DgEBgvUfa6x7vD3b39e6bd3w8zz3KNzUju1AAADXppVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+Cjx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDQuNC4wLUV4aXYyIj4KIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgIHhtbG5zOkdJTVA9Imh0dHA6Ly93d3cuZ2ltcC5vcmcveG1wLyIKICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIgogICAgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIgogICB4bXBNTTpEb2N1bWVudElEPSJnaW1wOmRvY2lkOmdpbXA6M2JhODAyNWUtZTEyZS00NjBhLWE4ZTYtNWZkOWU4MTBiNTdlIgogICB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOmRkZmQ5M2ZkLTZhNjgtNDM5My04MTJjLWJlYzkyYzA4N2MxMCIKICAgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjAxMWZmNDRlLTJhNzUtNDBjNS1iYzI0LTIzOGE5YWJjZmJmMiIKICAgR0lNUDpBUEk9IjIuMCIKICAgR0lNUDpQbGF0Zm9ybT0iTWFjIE9TIgogICBHSU1QOlRpbWVTdGFtcD0iMTY4MzU4MTUwMTUxMDY1MyIKICAgR0lNUDpWZXJzaW9uPSIyLjEwLjM0IgogICBkYzpGb3JtYXQ9ImltYWdlL3BuZyIKICAgdGlmZjpPcmllbnRhdGlvbj0iMSIKICAgeG1wOkNyZWF0b3JUb29sPSJHSU1QIDIuMTAiCiAgIHhtcDpNZXRhZGF0YURhdGU9IjIwMjM6MDU6MDhUMjM6MzE6MzYrMDI6MDAiCiAgIHhtcDpNb2RpZnlEYXRlPSIyMDIzOjA1OjA4VDIzOjMxOjM2KzAyOjAwIj4KICAgPHhtcE1NOkhpc3Rvcnk+CiAgICA8cmRmOlNlcT4KICAgICA8cmRmOmxpCiAgICAgIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiCiAgICAgIHN0RXZ0OmNoYW5nZWQ9Ii8iCiAgICAgIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6ODY1M2JjMjItNTBkOC00MjY3LTliNTMtNDQ1MzU5MzM5NTVhIgogICAgICBzdEV2dDpzb2Z0d2FyZUFnZW50PSJHaW1wIDIuMTAgKE1hYyBPUykiCiAgICAgIHN0RXZ0OndoZW49IjIwMjMtMDUtMDhUMjM6MzE6NDErMDI6MDAiLz4KICAgIDwvcmRmOlNlcT4KICAgPC94bXBNTTpIaXN0b3J5PgogIDwvcmRmOkRlc2NyaXB0aW9uPgogPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgIAo8P3hwYWNrZXQgZW5kPSJ3Ij8+DQWvoAAAAwBQTFRFAAAAAAAA////////////////////////////////////////////6urq6+vr7e3t7u7u7+/v8PDw8fHx8vLy8vLy8/Pz8/Pz9PT09PT09fX19fX19vb29vb29vb29/f39/f39/f39/f3+Pj48PDw8fHx8fHx8vLy8vLy8vLy8/Pz8/Pz8/Pz8/Pz9PT09PT09PT09PT09fX19fX19fX19fX19fX19vb29vb29vb29vb28vLy8vLy8vLy8vLy8/Pz8/Pz8/Pz8/Pz8/Pz9PT09PT09PT09PT09PT09PT09fX19fX19fX19fX19fX19fX19fX19fX19vb28/Pz8/Pz8/Pz8/Pz8/Pz8/Pz8/Pz9PT09PT09PT09PT09PT09PT09PT09PT09PT09fX19fX19fX19fX19fX19fX19fX18/Pz8/Pz8/Pz8/Pz8/Pz8/Pz9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09fX19fX19fX19fX19fX19fX18/Pz8/Pz8/Pz8/Pz8/Pz9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09fX19fX19fX19fX19fX18/Pz8/Pz8/Pz8/Pz8/Pz9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09fX19fX19fX19fX18/Pz8/Pz8/Pz8/Pz9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09fX19fX18/Pz8/Pz8/Pz9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09fX19fX18/Pz9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09fX19PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0M5if4wAAAAF0Uk5TAEDm2GYAAAABYktHRACIBR1IAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wUIFR8pX8TRbAAADARJREFUeNrt3dty5CgQBFBF/v9Hb8TG2uNZu91I1CWzSL1NuEei6gACNaKvy4cPHz7+OvDneP0XOE8EPp8M36Q+Pvn1804dQxt68297VRu9/PtbKXtVIb350KLUmruPZ0pLH7wldffsPuLy+Ehqsb36eJPBe//hmdTTy/l43CntSV1uWgWtKUTKLaugNcVJuWmlM4VJuWUt5Wfv/4dJ/Vcck2QwxUuFlMlOJVLuBZPyES/lhpWTiRwpN6z4NCRJGSs8AXlSh1uFB58pdfANK6GSJkudOcVKqZ8VUodZJcWbL3WYVVqwFVIHWSUGWiN1iFVqjFVSJ4wDc+MrlBpulR1bqdTgIXt+JSyWGmpV0VmUS03sAktCqpcaR1UUT4PUMKuqYFqkBs2u6uLokZoysqiscI1S+lalEbRJ6d+tisvfKCXeBVaXvVsKhpKQ6rigamfQLiXZA4LgmrhMxdlng6G2aFk1lZZBSouqq6wUUko9YFtJSaRUxoCNNYpGSqJZwVIaN6vWEvJI8bcqWEqiWXWXjUqKmQqW0qDqLxeZFOvNiqBUdFKUVAxl4pMinASDsRBwZkiLwylFRQVLaVCxlIVTiqgc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'
@@ -342,15 +342,15 @@ import {
         myImages['salg_vide_6_png']='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAACB1BMVEUAAAD/AACAAACqAAC/AADMAACqAAC2AAC/AADGAACzGhq5Fxe/FRXEFBS7ERG/EBC4Dg68DQ2/DQ25DAy/Cwu/CQnBCQm7ERG/EBC8Dw+9Dw/BDg68DQ2+DQ2/DQ3BDAy8DAy/DAy+Cwu+Dg6/Dg68DQ2+DQ2/DQ28DQ2+DAy/Cwu8Dw+9Dw++Dg6/Dg69Dg6+Dg6/DQ29DQ2+DQ2+DAy+DAy9DAy/DAy/DAy+Dg6/Dg6/Dg69Dg6+Dg6/DQ2/DQ29DAy9DAy+DAy/Dg69Dg6+DQ2/DQ29DQ2+DQ2/DQ29DQ2+DQ2/DAy9DAy+DAy9Dg6+DQ2/DQ2+DQ2+DQ2+DQ29DAy+DAy+DAy/DAy+Dg6+Dg6+Dg6/Dg6+DQ2+DQ2+DQ2+DQ29DQ2+DQ2+DQ2+DAy+Dg6/Dg69DQ2+DQ2+DQ2/DQ29DQ2+DQ2/DQ29DQ2+DQ2+DQ2/DQ2+DQ2+DAy+DAy+Dg6+Dg6+DQ2/DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2/DQ2+DQ2+DQ2+DQ2+DQ29DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DAy+Dg6+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DAy+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ2+DQ3////MwXBhAAAAq3RSTlMAAQIDBAUGBwgJCgsMDQ8QEhMUFhgcHR4gIiMlJicoKSosLzc4OTs8PT9ERUZHSElKTE1OUlNVV1haW1xdXmBkaGlqb3Byc3R1d3h5e3x+gIaHio2OkJGSk5SVlpeYmZyen6Chpqiqq6ytrq+wsrO0tba3uLm7vL2+wMHDxMfIycrL0dPV1tfY2dvc3t/g4eLj5Obn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f5kIxgkAAAAAWJLR0SsV2XyiwAAAjxJREFUGBmVwQlbTGEAhuGnJikZhagsMyfZZclO0hkhpOwheyhLspTRhoQi2bMNLUrTmXn/pH4A1/ed++Z/8r6sx6cG9Wfgy2pJR/Aj0Dum1+P5+FDmndL2xGXsBfquuHIavDDW6icLXDmLvSZsrVIi25WTm1Qhlpqk9a6cMqkOOwWJh16tK+e692xkFlaqtS46clgb4i3bVY6Vns9pJfqgNhXPGGrHRkgnSemU1A6XE3lYOKQNUDimcQc2ax8WWlUF1GgPUKM7mE0b0QPAVQjoUCwVoyL9mZwPrkKwMDGoJRjtV7WOgqsQ1MXLtAejc97MZ6MFuAoRHq+frRMYNfezIhlNcRUKPInlMtSIUU87nNcpV6Gz2gWvnmIUuw/TO/RcDToG9H/CaGw4HXIeS6pLgUX6gdGoioGMRlUy5aC+YTSsm0zZpCCQ+kaDGP3SZBjYoiBQKn3CaKBnqDUFtikI2R9H+15gFB2oUiWUKkjqbVW9a8boopfZnChnt4LpV9U2M1GL0UGFglFdqVZxt7qCharAqER7CRyd0JQbQQ5pDUazvJepkH9PXRsh7c1EFmaPVQq4coBytWOhQrE8cOXAvO9ysTB3Um3puHJI69REDjbuSA+yXDmZTdItrCzXb/Ve1Y5ueSrCzqOfB4Ylxc/8acHSyuTp3Lu6tqAluRRb9fFlETk7dQFrs7+8r9ba2Mds7G1NjuitV4wfxyXtw5dAVJfwKaIwPkUUxqeIwvgUURifIgrj09qvc/i3vxzmzHWnA5cFAAAAAElFTkSuQmCC';
         this.images = myImages;
     }
-  
-    // The height of your card. Home Assistant uses this to automatically
-    // distribute all cards over the available columns.
-    getCardSize() {
-      return this.sensors.length + 1;
-    }
-  
-    static get styles() {
-      return css`
+
+// The height of your card. Home Assistant uses this to automatically
+// distribute all cards over the available columns.
+getCardSize() {
+    return this.sensors.length + 1;
+}
+
+static get styles() {
+    return css`
         .header {
           padding: 0;
           @apply --paper-font-headline;
@@ -407,8 +407,8 @@ import {
        white-space: nowrap;
         }
       `;
-    }
-  }
-  customElements.define("pollenprognos-card", PollenCardv2);
+}
+}
+customElements.define("pollenprognos-card", PollenCardv2);
 
 // vim: set ts=4 sw=4 et:
