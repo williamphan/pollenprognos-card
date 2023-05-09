@@ -23,10 +23,13 @@ import {
         // Used to filter away -1 values
         // TODO: a more proper way to handle it would be to add
         // support for "na", which, I think, -1 really is.
-        var testval = function (val) {
-            if (Number(val) == -1) {
-                console.log("Value below zero; possible error. Returning 7.")
-                return 7;
+        var test_val = function (val) {
+            if (Number(val) < -1) {
+                console.log("Unrecognized negative value; returning lowest known (-1).")
+                return -1;
+            } else if (Number(val) > 6) {
+                console.log("Unrecognized positive value; returning highest known (6).")
+                return 6;
             } else {
                 return val;
             }
@@ -85,16 +88,16 @@ import {
           //Add to list of sensors to be displayed
           var attributeKeys = Object.keys(dict.allergen.attributes);
           dict.day0 = { name: dict.allergenCapitalized, day: "Idag", state: dict.allergen.state, state_text: test_text(parseInt(dict.allergen.state))};
-          dict.day1 = { name: dict.allergenCapitalized, day: attributeKeys[0], state: testval(dict.allergen.attributes[attributeKeys[0]]), state_text: state_text[testval(parseInt(dict.allergen.attributes[attributeKeys[0]]))]};
-          dict.day2 = { name: dict.allergenCapitalized, day: attributeKeys[1], state: testval(dict.allergen.attributes[attributeKeys[1]]), state_text: state_text[testval(parseInt(dict.allergen.attributes[attributeKeys[1]]))]};
+          dict.day1 = { name: dict.allergenCapitalized, day: attributeKeys[0], state: test_val(dict.allergen.attributes[attributeKeys[0]]), state_text: state_text[test_val(parseInt(dict.allergen.attributes[attributeKeys[0]]))]};
+          dict.day2 = { name: dict.allergenCapitalized, day: attributeKeys[1], state: test_val(dict.allergen.attributes[attributeKeys[1]]), state_text: state_text[test_val(parseInt(dict.allergen.attributes[attributeKeys[1]]))]};
           dict.day3 = { name: dict.allergenCapitalized, day: attributeKeys[2], state: dict.allergen.attributes[attributeKeys[2]], state_text: test_text(parseInt(dict.allergen.attributes[attributeKeys[2]]))};
   
           if (this.pollen_threshold == 0) {
               sensors.push(dict);
-          } else if ((testval(dict.day0.state) >= this.pollen_threshold ||
-              testval(dict.day1.state) >= this.pollen_threshold ||
-              testval(dict.day2.state) >= this.pollen_threshold ||
-              testval(dict.day3.state) >= this.pollen_threshold)) {
+          } else if ((test_val(dict.day0.state) >= this.pollen_threshold ||
+              test_val(dict.day1.state) >= this.pollen_threshold ||
+              test_val(dict.day2.state) >= this.pollen_threshold ||
+              test_val(dict.day3.state) >= this.pollen_threshold)) {
               sensors.push(dict);
           }
       }
