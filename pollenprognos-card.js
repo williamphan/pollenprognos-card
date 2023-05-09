@@ -48,30 +48,36 @@ class PollenCardv2 extends LitElement {
         const allergens = this.config.allergens;
         const state_text = ["Ingen pollen", "Låga halter","Låga-måttliga halter","Måttliga halter","Måttliga-höga halter","Höga halter","Mycket höga halter"];
 
+        // Set header
         if (this.config.title == null || this.config.title == true) {
             this.header = `Pollenprognos ${this.config.city.charAt(0).toUpperCase() + this.config.city.slice(1)}`;
         } else if (this.config.title.length > 0){
             this.header = this.config.title;
         }
 
+        // Different rowpan for allergen image depending on
+        // if text is shown or not
         if ( this.config.show_text == false ) {
             this.rowspan = 2;
         } else {
             this.rowspan = 1;
         }
 
+        // Set default days to show
         if (this.config.days_to_show === undefined) {
             this.days_to_show = 4;
         } else {
             this.days_to_show = this.config.days_to_show;
         }
 
+        // Set default pollen threshold
         if (this.config.pollen_threshold === undefined) {
             this.pollen_threshold = 1;
         } else {
             this.pollen_threshold = this.config.pollen_threshold;
         }
 
+        // Set allergens up as sensors
         for (var i = 0; i < allergens.length; i++) {
             var dict = {};
 
