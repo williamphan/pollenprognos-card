@@ -149,7 +149,6 @@ class PollenCardv2 extends LitElement {
 
         //Add to class
         this.sensors = sensors;
-        console.log(sensors);
     }
 
     _renderMinimalHtml() {
